@@ -1,8 +1,8 @@
 <?php
-
+	
 	/*include 'conn.php';*/
 	$con = mysqli_connect('localhost','root');
-	mysqli_select_db($con,'loging');
+	$db = mysqli_select_db($con,'loging');
 	/*if($con)
 	{
 		echo 'Connected';
@@ -16,19 +16,21 @@
 		$uname = $_POST['uname'];
 		$pass = $_POST['password'];
 
-		$q = " SELECT * FROM `login` WHERE `username` = '$uname' AND `password` = '$pass' ";
-		$query = mysqli_query($con,$q)
-
+		$q = "SELECT * FROM `login` WHERE `username` = '$uname' AND `password` = '$pass'";
+		$query = mysqli_query($con,$q);
+		$row = mysqli_num_rows($query);
 		
-		if ($query['username'] == $uname && $query['password'] == $pass)
-		{
-		
-			# code... 
-			echo "Log in succesfull";
-		}
-		else
-			echo "Try Again";
-		
+			if ($row == 0)
+			{
+			
+				echo "Log in succesfull";
+				header('location:data.php');
+			}
+			else
+			{
+				echo "Try Again";
+				header('location:login.php');
+			}
 	}
 
 ?>
